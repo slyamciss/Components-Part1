@@ -15,32 +15,34 @@ class CampsiteInfo extends Component {
       </div>
     );
   }
-  // Need to break line 24 in 2 lines and also work on the putting campsite image and comment side by side
+
   renderComments(comments) {
-    return (
-      <div className="col-md-5 m-1">
-        <h4>Comments</h4>
-        {comments.map((comment) => (
-          <div>
-            {comment.text} <br />
-            -- {comment.author},{" "}
-            {new Intl.DateTimeFormat("en-US", {
-              year: "numeric",
-              month: "short",
-              day: "2-digit",
-            }).format(new Date(Date.parse(comment.date)))}
-          </div>
-        ))}
-      </div>
-    );
+    if (comments) {
+        return (
+            <div className="col-md-5 m-1">
+                  <h4>Comments</h4>
+                  {comments.map(comment => {
+                    return (
+                      <div key={comment.id}>
+                        <p>{comment.text} <br />
+                        -- {comment.author}, {new Intl.DateTimeFormat("en-US", {year: "numeric", month: "short",day: "2-digit", }).format(new Date(Date.parse(comment.date)))} </p>
+                      </div>
+                    );
+                  })}
+            </div>
+        );
+    }
+    return <div />
   }
 
   render() {
     if (this.props.campsite) {
       return (
-        <div>
-          <div>{this.renderCampsite(this.props.campsite)}</div>
-          <div>{this.renderComments(this.props.campsite.comments)}</div>
+        <div className="container">
+            <div className="row">
+              <div>{this.renderCampsite(this.props.campsite)}</div>
+              <div>{this.renderComments(this.props.campsite.comments)}</div>
+            </div>
         </div>
       );
     }
